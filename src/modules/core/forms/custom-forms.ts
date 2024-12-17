@@ -3,19 +3,17 @@ import {Subscription} from "rxjs";
 import {Schema} from "yup";
 
 type EventConfig = {
-    emit: boolean,
-    bubbleUp: boolean
+    emit?: boolean,
+    bubbleUp?: boolean
 }
 
 interface FormElement<T = never> {
     getIsValid(): boolean
     onValidityChanges(callback: EventEmitterCallback): Subscription
-    emitValidityChanges(eventConfig?: EventConfig): void
 
     getValue(): T | T[]
     setValue(newValue: T | any, config?: EventConfig): void
     onValueChanges(callback: EventEmitterCallback): Subscription
-    emitValueChanges(eventConfig?: EventConfig): void
 }
 
 abstract class BaseFormElement<T = never> implements FormElement<T> {
@@ -41,7 +39,7 @@ abstract class BaseFormElement<T = never> implements FormElement<T> {
         return this.validityChangesEventEmitter.subscribe(callback);
     }
 
-    emitValidityChanges(eventConfig: EventConfig = {
+    protected emitValidityChanges(eventConfig: EventConfig = {
         emit: true,
         bubbleUp: true
     }) {
@@ -57,7 +55,7 @@ abstract class BaseFormElement<T = never> implements FormElement<T> {
         return this.valueChangesEventEmitter.subscribe(callback);
     }
 
-    emitValueChanges(eventConfig: EventConfig = {
+    protected emitValueChanges(eventConfig: EventConfig = {
         emit: true,
         bubbleUp: true
     }) {
@@ -69,26 +67,26 @@ abstract class BaseFormElement<T = never> implements FormElement<T> {
         }
     }
 
-    setParent(parent: BaseFormElement): void {
+    protected setParent(parent: BaseFormElement): void {
         this.parent = parent;
     }
 
-    abstract getValue(): T | T[];
+    abstract getValue(): any;
 
     abstract setValue(newValue: T | T[], eventConfig?: EventConfig): void;
 }
 
-export class FormGroup<T = never> extends BaseFormElement<T>{
-    private _formElements: {[key: string]: FormElement<T>}
+export class FormGroup extends BaseFormElement {
+    private _formElements: {[key: string]: FormElement<any>}
 
-    constructor(formElements: { [p: string]: FormElement<T> }, validator?: Schema) {
+    constructor(formElements: { [p: string]: FormElement<any> }, validator?: Schema) {
         super(validator);
         this._formElements = formElements;
         this._setUpElements();
     }
 
-    getValue(): T {
-        const valueObject = {} as T;
+    getValue(): any {
+        const valueObject = {};
 
         this._forEachChild((control, key) => {
             const controlValue = control.getValue()
@@ -100,7 +98,7 @@ export class FormGroup<T = never> extends BaseFormElement<T>{
         return valueObject;
     }
 
-    setValue(newValue: T, eventConfig: EventConfig = {
+    setValue(newValue: any, eventConfig: EventConfig = {
         emit: true,
         bubbleUp: true
     }): void {
@@ -114,8 +112,12 @@ export class FormGroup<T = never> extends BaseFormElement<T>{
         this.emitValueChanges(eventConfig)
     }
 
+    getFormElement(key: string) {
+        return this._formElements[key]
+    }
+
     // Internal
-    _forEachChild(cb: (v: any, k: any) => void): void {
+    private _forEachChild(cb: (v: any, k: any) => void): void {
         Object.keys(this._formElements).forEach((key) => {
             // The list of controls can change (for ex. controls might be removed) while the loop
             // is running (as a result of invoking Forms API in `valueChanges` subscription), so we
@@ -127,7 +129,7 @@ export class FormGroup<T = never> extends BaseFormElement<T>{
         });
     }
 
-    _setUpElements() {
+    private _setUpElements() {
         this._forEachChild((control) => {
             control.setParent(this)
         })
