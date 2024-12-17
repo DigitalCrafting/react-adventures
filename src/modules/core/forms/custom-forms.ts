@@ -21,11 +21,11 @@ interface FormElement<T = never> {
 abstract class BaseFormElement<T = never> implements FormElement<T> {
     protected parent: BaseFormElement | null = null;
     protected isValid;
-    protected validatorSchema: Schema;
+    protected validatorSchema?: Schema;
     protected validityChangesEventEmitter: EventEmitter<boolean>;
     protected valueChangesEventEmitter: EventEmitter<T | any>;
 
-    constructor(validator: Schema) {
+    constructor(validator?: Schema) {
         this.validatorSchema = validator
         this.isValid = true;
         this.validityChangesEventEmitter = new EventEmitter();
@@ -81,7 +81,7 @@ abstract class BaseFormElement<T = never> implements FormElement<T> {
 export class FormGroup<T = never> extends BaseFormElement<T>{
     private _formElements: {[key: string]: FormElement<T>}
 
-    constructor(formElements: { [p: string]: FormElement<T> }, validator: Schema) {
+    constructor(formElements: { [p: string]: FormElement<T> }, validator?: Schema) {
         super(validator);
         this._formElements = formElements;
         this._setUpElements();
@@ -137,7 +137,7 @@ export class FormGroup<T = never> extends BaseFormElement<T>{
 export class FormInput<T = never> extends BaseFormElement<T> {
     private value: T;
 
-    constructor(value: T, validator: Schema) {
+    constructor(value: T, validator?: Schema) {
         super(validator);
         this.value = value
     }
@@ -158,7 +158,7 @@ export class FormInput<T = never> extends BaseFormElement<T> {
 export class FormArray<T = never> extends BaseFormElement<T> {
     private formArray: FormElement[]
 
-    constructor(array: FormElement[], validator: Schema) {
+    constructor(array: FormElement[], validator?: Schema) {
         super(validator);
         this.formArray = array || []
     }
