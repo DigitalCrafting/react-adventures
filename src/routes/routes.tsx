@@ -8,7 +8,7 @@ import {CustomFormPage} from "../modules/forms/custom/CustomFormPage.tsx";
 const router = createBrowserRouter([
     {
         path: '',
-        element: <Navigate to="/ui"/>
+        element: <Navigate to="/ui/custom"/>
     },
     {
         path: 'ui',
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '',
-                element: <Navigate to="/ui/vanilla"/>
+                element: <Navigate to="/ui/custom"/>
             },{
                 path: 'vanilla',
                 element: <VanillaFormPage/>

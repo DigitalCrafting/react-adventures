@@ -1,11 +1,11 @@
 import {describe, expect, it} from 'vitest';
-import {FormGroup, FormInput} from "./custom-forms.ts";
+import {FormGroup, FormInputControl} from "./custom-forms.ts";
 
 describe('Custom forms', () => {
     describe('FormInput', () => {
         it('should correctly store value', () => {
             // given
-            const control = new FormInput('test')
+            const control = new FormInputControl('test')
 
             // when
             const actual = control.getValue()
@@ -16,7 +16,7 @@ describe('Custom forms', () => {
 
         it('should correctly set value and emit event', () => {
             // given
-            const control = new FormInput('test');
+            const control = new FormInputControl('test');
             let emittedValue = null;
             control.onValueChanges((value) => {
                 emittedValue = value
@@ -33,7 +33,7 @@ describe('Custom forms', () => {
 
         it('should correctly set value and NOT emit event', () => {
             // given
-            const control = new FormInput('test');
+            const control = new FormInputControl('test');
             let emittedValue = null;
             control.onValueChanges((value) => {
                 emittedValue = value
@@ -53,8 +53,8 @@ describe('Custom forms', () => {
         it('should correctly store value', () => {
             // given
             const control = new FormGroup({
-                first: new FormInput('first value'),
-                second: new FormInput('second value')
+                first: new FormInputControl('first value'),
+                second: new FormInputControl('second value')
             })
 
             // when
@@ -70,8 +70,8 @@ describe('Custom forms', () => {
         it('should correctly set value in all sub-elements', () => {
             // given
             const control = new FormGroup({
-                first: new FormInput('first value'),
-                second: new FormInput('second value')
+                first: new FormInputControl('first value'),
+                second: new FormInputControl('second value')
             })
 
             // when
@@ -91,8 +91,8 @@ describe('Custom forms', () => {
         it('should correctly set value in specified sub-elements', () => {
             // given
             const control = new FormGroup({
-                first: new FormInput('first value'),
-                second: new FormInput('second value')
+                first: new FormInputControl('first value'),
+                second: new FormInputControl('second value')
             })
 
             // when
@@ -111,8 +111,8 @@ describe('Custom forms', () => {
         it('should correctly emit value change event', () => {
             // given
             const control = new FormGroup({
-                first: new FormInput('first value'),
-                second: new FormInput('second value')
+                first: new FormInputControl('first value'),
+                second: new FormInputControl('second value')
             })
             let emittedValue = null
             control.onValueChanges((value) => {
@@ -134,8 +134,8 @@ describe('Custom forms', () => {
         it('should correctly emit and bubble-up value change event', () => {
             // given
             const control = new FormGroup({
-                first: new FormInput('first value'),
-                second: new FormInput('second value')
+                first: new FormInputControl('first value'),
+                second: new FormInputControl('second value')
             })
             let emittedValue = null
             control.onValueChanges((value) => {
@@ -156,8 +156,8 @@ describe('Custom forms', () => {
         it('should emit but NOT bubble-up value change event', () => {
             // given
             const control = new FormGroup({
-                first: new FormInput('first value'),
-                second: new FormInput('second value')
+                first: new FormInputControl('first value'),
+                second: new FormInputControl('second value')
             })
             const secondControl = control.getFormElement('second')
             let emittedValue = null

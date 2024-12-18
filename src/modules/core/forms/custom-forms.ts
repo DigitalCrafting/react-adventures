@@ -136,7 +136,7 @@ export class FormGroup extends BaseFormElement {
     }
 }
 
-export class FormInput<T = never> extends BaseFormElement<T> {
+export class FormInputControl<T = any> extends BaseFormElement<T> {
     private value: T;
 
     constructor(value: T, validator?: Schema) {
