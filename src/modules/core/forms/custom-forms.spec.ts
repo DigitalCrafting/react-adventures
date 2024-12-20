@@ -47,6 +47,24 @@ describe('Custom forms', () => {
             expect(actual).eq('test 2');
             expect(emittedValue).eq(null);
         })
+
+        it('should validate field and emit event', () => {
+            // given
+            const control = new FormInputControl('', (value) => {
+                return !value ? "Value is required" : null
+            })
+            let currentIsValid = control.getIsValid()
+            control.onValidityChanges((valid)=> {
+                currentIsValid = valid
+            })
+
+            // when
+            control.setValue('test')
+
+            // then
+            expect(currentIsValid).eq(control.getIsValid())
+            expect(currentIsValid).eq(true)
+        })
     })
 
     describe('FormGroup', () => {
@@ -175,6 +193,28 @@ describe('Custom forms', () => {
             // then
             expect(emittedValue).eq('new second value')
             expect(bubbledUpValue).eq(null)
+        })
+
+        it('should correctly validate and emit value', () => {
+            // given
+            const control = new FormGroup({
+                first: new FormInputControl('', (value) => {
+                    return !value ? "Value is required" : null
+                }),
+                second: new FormInputControl('second value')
+            })
+            let currentIsValid = control.getIsValid()
+            control.onValidityChanges((valid) => {
+                currentIsValid = valid
+            })
+            expect(currentIsValid).eq(false)
+
+            // when
+            control.setValue({first: 'test'})
+
+            // then
+            expect(currentIsValid).eq(true)
+            expect(currentIsValid).eq(control.getIsValid())
         })
     })
 })

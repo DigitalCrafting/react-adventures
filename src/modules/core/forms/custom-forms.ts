@@ -1,6 +1,9 @@
 import {EventEmitter, EventEmitterCallback} from "../events/event-emitter.ts";
 import {Subscription} from "rxjs";
-import {Schema} from "yup";
+
+export type ValidationError = string
+
+export type ValidatorFunc = (value: any) => ValidationError | null
 
 type EventConfig = {
     emit?: boolean,
@@ -9,6 +12,7 @@ type EventConfig = {
 
 interface FormElement<T = never> {
     getIsValid(): boolean
+    getError(): ValidationError | null
     onValidityChanges(callback: EventEmitterCallback): Subscription
 
     getValue(): T | T[]
@@ -18,35 +22,54 @@ interface FormElement<T = never> {
 
 abstract class BaseFormElement<T = never> implements FormElement<T> {
     protected parent: BaseFormElement | null = null;
-    protected isValid;
-    protected validatorSchema?: Schema;
+    protected error: ValidationError | null;
+    protected validatorFunc?: ValidatorFunc;
     protected validityChangesEventEmitter: EventEmitter<boolean>;
     protected valueChangesEventEmitter: EventEmitter<T | any>;
 
-    constructor(validator?: Schema) {
-        this.validatorSchema = validator
-        this.isValid = true;
+    constructor(validatorFunc?: ValidatorFunc) {
+        this.validatorFunc = validatorFunc
+        this.error = null;
         this.validityChangesEventEmitter = new EventEmitter();
         this.valueChangesEventEmitter = new EventEmitter();
     }
 
 
     getIsValid(): boolean {
-        return this.isValid;
+        return this.error === null;
+    }
+
+    getError(): ValidationError | null {
+        return this.error;
     }
 
     onValidityChanges(callback: EventEmitterCallback): Subscription {
         return this.validityChangesEventEmitter.subscribe(callback);
     }
 
-    protected emitValidityChanges(eventConfig: EventConfig = {
+    protected updateValidityAndEmitEvent(eventConfig: EventConfig = {
+        emit: true,
+        bubbleUp: true
+    }) {
+        if (this.validatorFunc) {
+            const newError = this.validatorFunc(this.getValue());
+            if (this.error !== newError) {
+                this.error = newError;
+                if (eventConfig.emit) {
+                    this._emitValidityChanges()
+                }
+            }
+        }
+    }
+
+    protected _emitValidityChanges(eventConfig: EventConfig = {
         emit: true,
         bubbleUp: true
     }) {
         if (eventConfig.emit) {
             this.validityChangesEventEmitter.emit(this.getIsValid())
             if (eventConfig.bubbleUp && this.parent) {
-                this.parent.emitValidityChanges(eventConfig)
+                this.parent._emitValidityChanges(eventConfig)
             }
         }
     }
@@ -55,19 +78,19 @@ abstract class BaseFormElement<T = never> implements FormElement<T> {
         return this.valueChangesEventEmitter.subscribe(callback);
     }
 
-    protected emitValueChanges(eventConfig: EventConfig = {
+    protected _emitValueChanges(eventConfig: EventConfig = {
         emit: true,
         bubbleUp: true
     }) {
         if (eventConfig.emit) {
             this.valueChangesEventEmitter.emit(this.getValue())
             if (eventConfig.bubbleUp && this.parent) {
-                this.parent.emitValueChanges(eventConfig)
+                this.parent._emitValueChanges(eventConfig)
             }
         }
     }
 
-    protected setParent(parent: BaseFormElement): void {
+    protected _setParent(parent: BaseFormElement): void {
         this.parent = parent;
     }
 
@@ -79,10 +102,20 @@ abstract class BaseFormElement<T = never> implements FormElement<T> {
 export class FormGroup extends BaseFormElement {
     private _formElements: {[key: string]: FormElement<any>}
 
-    constructor(formElements: { [p: string]: FormElement<any> }, validator?: Schema) {
+    constructor(formElements: { [p: string]: FormElement<any> }, validator?: ValidatorFunc) {
         super(validator);
         this._formElements = formElements;
         this._setUpElements();
+    }
+
+    getIsValid(): boolean {
+        let valid = true
+
+        this._forEachChild((control) => {
+            valid = valid && control.getIsValid()
+        })
+
+        return valid;
     }
 
     getValue(): any {
@@ -109,7 +142,8 @@ export class FormGroup extends BaseFormElement {
             this._formElements[prop].setValue(newValue[prop], {emit: true, bubbleUp: false});
         }
 
-        this.emitValueChanges(eventConfig)
+        this._emitValueChanges(eventConfig)
+        this.updateValidityAndEmitEvent(eventConfig)
     }
 
     getFormElement(key: string) {
@@ -131,7 +165,7 @@ export class FormGroup extends BaseFormElement {
 
     private _setUpElements() {
         this._forEachChild((control) => {
-            control.setParent(this)
+            control._setParent(this)
         })
     }
 }
@@ -139,9 +173,10 @@ export class FormGroup extends BaseFormElement {
 export class FormInputControl<T = any> extends BaseFormElement<T> {
     private value: T;
 
-    constructor(value: T, validator?: Schema) {
+    constructor(value: T, validator?: ValidatorFunc) {
         super(validator);
         this.value = value
+        this.updateValidityAndEmitEvent({emit: false, bubbleUp: false})
     }
 
     getValue(): T {
@@ -153,14 +188,15 @@ export class FormInputControl<T = any> extends BaseFormElement<T> {
         bubbleUp: true
     }): void {
         this.value = newValue;
-        this.emitValueChanges(eventConfig)
+        this._emitValueChanges(eventConfig)
+        this.updateValidityAndEmitEvent(eventConfig)
     }
 }
 
 export class FormArray<T = never> extends BaseFormElement<T> {
     private formArray: FormElement[]
 
-    constructor(array: FormElement[], validator?: Schema) {
+    constructor(array: FormElement[], validator?: ValidatorFunc) {
         super(validator);
         this.formArray = array || []
     }
@@ -188,6 +224,6 @@ export class FormArray<T = never> extends BaseFormElement<T> {
             this.formArray[i].setValue(newValue[i], {emit: eventConfig.emit, bubbleUp: false});
         }
 
-        this.emitValueChanges(eventConfig)
+        this._emitValueChanges(eventConfig)
     }
 }
