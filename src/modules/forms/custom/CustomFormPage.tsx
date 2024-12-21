@@ -15,7 +15,7 @@ export function CustomFormPage() {
         })
     )
 
-    return <div className="container col">
+    return <div className="container">
         <CustomFormHeader/>
         <CustomFormBody formGroup={formGroup.current}/>
         <CustomFormFooter formGroup={formGroup.current}/>

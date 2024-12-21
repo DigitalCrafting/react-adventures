@@ -6,6 +6,7 @@ type GenericInputProps = {
     id: string,
     value: any,
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
+    type: string
 }
 
 export function GenericInput({label, error, id, ...props}: GenericInputProps) {
