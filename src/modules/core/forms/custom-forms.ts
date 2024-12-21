@@ -10,7 +10,7 @@ type EventConfig = {
     bubbleUp?: boolean
 }
 
-interface FormElement<T = never> {
+export interface FormElement<T = any> {
     getIsValid(): boolean
     getError(): ValidationError | null
     onValidityChanges(callback: EventEmitterCallback): Subscription
@@ -20,7 +20,7 @@ interface FormElement<T = never> {
     onValueChanges(callback: EventEmitterCallback): Subscription
 }
 
-abstract class BaseFormElement<T = never> implements FormElement<T> {
+abstract class BaseFormElement<T = any> implements FormElement<T> {
     protected parent: BaseFormElement | null = null;
     protected error: ValidationError | null;
     protected validatorFunc?: ValidatorFunc;
@@ -100,9 +100,9 @@ abstract class BaseFormElement<T = never> implements FormElement<T> {
 }
 
 export class FormGroup extends BaseFormElement {
-    private _formElements: {[key: string]: FormElement<any>}
+    private _formElements: {[key: string]: FormGroup | FormInputControl | FormArray}
 
-    constructor(formElements: { [p: string]: FormElement<any> }, validator?: ValidatorFunc) {
+    constructor(formElements: { [p: string]: FormGroup | FormInputControl | FormArray}, validator?: ValidatorFunc) {
         super(validator);
         this._formElements = formElements;
         this._setUpElements();
@@ -146,7 +146,7 @@ export class FormGroup extends BaseFormElement {
         this.updateValidityAndEmitEvent(eventConfig)
     }
 
-    getFormElement(key: string) {
+    getFormElement(key: string): FormGroup | FormInputControl | FormArray {
         return this._formElements[key]
     }
 
@@ -171,15 +171,15 @@ export class FormGroup extends BaseFormElement {
 }
 
 export class FormInputControl<T = any> extends BaseFormElement<T> {
-    private value: T;
+    private value: T | null;
 
-    constructor(value: T, validator?: ValidatorFunc) {
+    constructor(value: T | null = null, validator?: ValidatorFunc) {
         super(validator);
         this.value = value
         this.updateValidityAndEmitEvent({emit: false, bubbleUp: false})
     }
 
-    getValue(): T {
+    getValue(): T | null {
         return this.value;
     }
 
@@ -193,7 +193,7 @@ export class FormInputControl<T = any> extends BaseFormElement<T> {
     }
 }
 
-export class FormArray<T = never> extends BaseFormElement<T> {
+export class FormArray<T = any> extends BaseFormElement<T> {
     private formArray: FormElement[]
 
     constructor(array: FormElement[], validator?: ValidatorFunc) {

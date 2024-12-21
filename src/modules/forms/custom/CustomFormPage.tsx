@@ -1,23 +1,23 @@
-import {CustomFormInput} from "../../core/components/custom/custom-form-input.tsx";
-import {useEffect, useRef} from "react";
-import {FormInputControl} from "../../core/forms/custom-forms.ts";
+import {useRef} from "react";
+import {FormGroup, FormInputControl} from "../../core/forms/custom-forms.ts";
+import {CustomFormHeader} from "./components/CustomFormHeader.tsx";
+import {CustomFormFooter} from "./components/CustomFormFooter.tsx";
+import {CustomFormBody} from "./components/CustomFormBody.tsx";
 
 export function CustomFormPage() {
     console.log(`====== Re-evaluating CustomFormPage`)
-    const control = useRef(new FormInputControl<string>("Testing"))
-
-    useEffect(() => {
-        const sub = control.current.onValueChanges((value) => {
-            console.log(`=== ${value}`)
+    const formGroup = useRef(
+        new FormGroup({
+            title: new FormInputControl<string>('', (value) => {
+                return !value ? "Value is required" : null
+            }),
+            description: new FormInputControl<string>(''),
         })
-
-        return () => {
-            sub.unsubscribe()
-        }
-    }, []);
+    )
 
     return <div className="container col">
-        <p>Custom form page</p>
-        <CustomFormInput fieldName={"testField"} inputControl={control.current}/>
+        <CustomFormHeader/>
+        <CustomFormBody formGroup={formGroup.current}/>
+        <CustomFormFooter formGroup={formGroup.current}/>
     </div>
 }

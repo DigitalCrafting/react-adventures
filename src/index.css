@@ -5,3 +5,11 @@ body {
 .error {
   color: red;
 }
+
+.text-align-left {
+  text-align: left;
+}
+
+.fs-7 {
+  font-size: 0.75rem !important;
+}

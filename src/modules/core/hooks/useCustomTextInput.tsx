@@ -1,20 +1,17 @@
-import {FormInputControl} from "../../forms/custom-forms.ts";
+import {FormInputControl} from "../forms/custom-forms.ts";
 import {ChangeEvent, useCallback, useEffect, useState} from "react";
 
 export function useCustomTextInput(fieldName: string, inputControl: FormInputControl) {
     const [inputValue, setInputValue] = useState<string>(inputControl.getValue())
-    const [error, setError] = useState(false)
+    const [error, setError] = useState<string | null>(inputControl.getError())
     const [inputId] = useState(`${fieldName}-input`)
 
     useEffect(() => {
-        const sub = inputControl.onValidityChanges((valid: boolean) => {
-            // TODO actual error message, `valid` should be inferred from existing error message
-            setError(!valid)
+        const sub = inputControl.onValidityChanges(() => {
+            setError(inputControl.getError())
         })
 
-        return () => {
-            sub.unsubscribe()
-        }
+        return () => sub.unsubscribe()
     }, []);
 
     const onInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {

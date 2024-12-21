@@ -1,17 +1,17 @@
 import {ChangeEvent} from "react";
 
 type GenericInputProps = {
-    // TODO change to string
-    error: boolean,
+    label: string
+    error: string | null,
     id: string,
     value: any,
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-export function GenericInput({error, id, ...props}: GenericInputProps) {
+export function GenericInput({label, error, id, ...props}: GenericInputProps) {
     return <div className="mb-3">
-        <label htmlFor={id}></label>
-        <input id={id} {...props}/>
-        {error ? <p className="error">Error</p> : null}
+        <label htmlFor={id} className="form-label w-100 text-align-left">{label}</label>
+        <input id={id} {...props} className="form-control"/>
+        {error ? <p className="error w-100 text-align-left fs-7">{error}</p> : null}
     </div>
 }

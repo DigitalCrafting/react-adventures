@@ -1,7 +1,6 @@
 # react-adventures
 
 In this project I want to explore different ways of handling forms in React:
-- Vanilla - just using Reacts `useState`,
 - Zod - using `Zod` and `useForm`,
 - Formik - using `Formik`,
 - Custom - I will try to implement custom form solution. 

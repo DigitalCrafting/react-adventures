@@ -161,7 +161,7 @@ describe('Custom forms', () => {
             })
 
             // when
-            const secondControl = control.getFormElement('second')
+            const secondControl = control.getFormElement('second') as FormInputControl
             secondControl.setValue('new second value')
 
             // then
@@ -177,7 +177,7 @@ describe('Custom forms', () => {
                 first: new FormInputControl('first value'),
                 second: new FormInputControl('second value')
             })
-            const secondControl = control.getFormElement('second')
+            const secondControl = control.getFormElement('second') as FormInputControl
             let emittedValue = null
             secondControl.onValueChanges((value) => {
                 emittedValue = value
