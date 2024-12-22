@@ -1,7 +1,7 @@
 import {GenericButton} from "../../../core/components/generic-button.tsx";
 import {FormGroup} from "../../../core/forms/custom-forms.ts";
 import {useCallback} from "react";
-import {useCustomFormButton} from "../../../core/hooks/useCustomFormButton.tsx";
+import {useCustomFormButton} from "../hooks/useCustomFormButton.tsx";
 
 type CustomFormButtonProps = {
     formGroup: FormGroup
