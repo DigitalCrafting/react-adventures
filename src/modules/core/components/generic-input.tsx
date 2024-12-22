@@ -1,18 +1,18 @@
-import {ChangeEvent} from "react";
+import {ChangeEvent, forwardRef} from "react";
 
 type GenericInputProps = {
     label: string
     error: string | null,
     id: string,
-    value: any,
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void
+    value?: any,
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void
     type: string
 }
 
-export function GenericInput({label, error, id, ...props}: GenericInputProps) {
+export const GenericInput = forwardRef<HTMLInputElement, GenericInputProps>(({label, error, id, ...props}, ref) => {
     return <div className="mb-3">
         <label htmlFor={id} className="form-label w-100 text-align-left">{label}</label>
-        <input id={id} {...props} className="form-control"/>
+        <input ref={ref} id={id} {...props} className="form-control"/>
         {error ? <p className="error w-100 text-align-left fs-7">{error}</p> : null}
     </div>
-}
+});
