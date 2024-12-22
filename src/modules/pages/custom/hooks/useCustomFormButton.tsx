@@ -1,5 +1,5 @@
-import {FormElement} from "../forms/custom-forms.ts";
 import {useEffect, useState} from "react";
+import {FormElement} from "../../../core/forms/custom-forms.ts";
 
 export function useCustomFormButton(formElement: FormElement) {
     const [disabled, setDisabled] = useState(!formElement.getIsValid())

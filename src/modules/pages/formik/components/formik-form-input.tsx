@@ -1,4 +1,4 @@
-import {GenericInput} from "../generic/generic-input.tsx";
+import {GenericInput} from "../../../core/components/generic-input.tsx";
 import {FormikProps} from "formik";
 
 type FormikFormInputProps = {

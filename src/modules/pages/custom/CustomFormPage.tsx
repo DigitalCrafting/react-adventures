@@ -1,8 +1,8 @@
 import {useRef} from "react";
 import {FormGroup, FormInputControl} from "../../core/forms/custom-forms.ts";
-import {CustomFormHeader} from "./components/CustomFormHeader.tsx";
-import {CustomFormFooter} from "./components/CustomFormFooter.tsx";
-import {CustomFormBody} from "./components/CustomFormBody.tsx";
+import {CustomFormHeader} from "././pageElements/CustomFormHeader.tsx";
+import {CustomFormFooter} from "././pageElements/CustomFormFooter.tsx";
+import {CustomFormBody} from "././pageElements/CustomFormBody.tsx";
 
 export function CustomFormPage() {
     console.log(`====== Re-evaluating CustomFormPage`)

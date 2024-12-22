@@ -1,6 +1,6 @@
-import {FormikFormHeader} from "./components/FormikFormHeader.tsx";
-import {FormikFormBody} from "./components/FormikFormBody.tsx";
-import {FormikFormFooter} from "./components/FormikFormFooter.tsx";
+import {FormikFormHeader} from "././pageElements/FormikFormHeader.tsx";
+import {FormikFormBody} from "././pageElements/FormikFormBody.tsx";
+import {FormikFormFooter} from "././pageElements/FormikFormFooter.tsx";
 import {useFormik} from "formik";
 import * as yup from 'yup'
 

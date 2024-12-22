@@ -1,4 +1,4 @@
-import {CustomFormButton} from "../../../core/components/custom/custom-form-button.tsx";
+import {CustomFormButton} from "../components/custom-form-button.tsx";
 import {FormGroup} from "../../../core/forms/custom-forms.ts";
 
 type CustomFormFooterProps = {

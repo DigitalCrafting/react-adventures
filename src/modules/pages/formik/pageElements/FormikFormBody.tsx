@@ -1,5 +1,5 @@
 import {FormikProps} from "formik";
-import {FormikFormInput} from "../../../core/components/formik/formik-form-input.tsx";
+import {FormikFormInput} from "../components/formik-form-input.tsx";
 
 type FormikFormBodyProps = {
     formik: FormikProps<any>

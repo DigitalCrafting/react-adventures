@@ -1,5 +1,5 @@
-import {FormInputControl} from "../forms/custom-forms.ts";
 import {ChangeEvent, useCallback, useEffect, useState} from "react";
+import {FormInputControl} from "../../../core/forms/custom-forms.ts";
 
 export function useCustomTextInput(fieldName: string, inputControl: FormInputControl) {
     const [inputValue, setInputValue] = useState<string>(inputControl.getValue())

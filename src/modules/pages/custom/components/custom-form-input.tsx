@@ -1,6 +1,6 @@
-import {FormInputControl} from "../../forms/custom-forms.ts";
-import {GenericInput} from "../generic/generic-input.tsx";
-import {useCustomTextInput} from "../../hooks/useCustomTextInput.tsx";
+import {FormInputControl} from "../../../core/forms/custom-forms.ts";
+import {GenericInput} from "../../../core/components/generic-input.tsx";
+import {useCustomTextInput} from "../../../core/hooks/useCustomTextInput.tsx";
 
 type CustomFormInputProps = {
     label: string

@@ -1,4 +1,4 @@
-import {GenericButton} from "../../../core/components/generic/generic-button.tsx";
+import {GenericButton} from "../../../core/components/generic-button.tsx";
 import {FormikProps} from "formik";
 
 type FormikFormFooterProps = {

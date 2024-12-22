@@ -1,4 +1,4 @@
-import {CustomFormInput} from "../../../core/components/custom/custom-form-input.tsx";
+import {CustomFormInput} from "../components/custom-form-input.tsx";
 import {FormGroup, FormInputControl} from "../../../core/forms/custom-forms.ts";
 
 type CustomFormBodyProps = {
