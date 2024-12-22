@@ -1,8 +1,8 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
-import App from "../modules/dashboard/App.tsx";
 import {FormikFormPage} from "../modules/./pages/formik/FormikFormPage.tsx";
 import {ZodFormPage} from "../modules/./pages/zod/ZodFormPage.tsx";
 import {CustomFormPage} from "../modules/./pages/custom/CustomFormPage.tsx";
+import App from "../modules/pages/dashboard/App.tsx";
 
 const router = createBrowserRouter([
     {
