@@ -8,7 +8,7 @@ type CustomFormBodyProps = {
 export function CustomFormBody({formGroup}: CustomFormBodyProps) {
     console.log(`====== Re-evaluating CustomFormBody`)
 
-    return (<div className="container w-50">
+    return (<div className="container p-0">
         <div className="row">
             <CustomFormInput label="Title"
                              fieldName={"title"}

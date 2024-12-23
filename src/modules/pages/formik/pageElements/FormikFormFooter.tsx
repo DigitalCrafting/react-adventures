@@ -8,5 +8,12 @@ type FormikFormFooterProps = {
 export function FormikFormFooter({formik}: FormikFormFooterProps) {
     console.log(`====== Re-evaluating FormikFormFooter`)
 
-    return <GenericButton disabled={!formik.isValid} onClick={formik.handleSubmit}>Click me!</GenericButton>;
+    return <div className="row">
+        <div className="col-8"/>
+        <div className="col-4 d-flex flex-row-reverse">
+            <GenericButton disabled={!formik.isValid} onClick={formik.handleSubmit}>Click me!</GenericButton>
+        </div>
+    </div>;
+
+
 }

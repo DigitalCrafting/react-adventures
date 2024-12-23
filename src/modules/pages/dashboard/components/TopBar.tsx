@@ -1,7 +1,8 @@
 import {Link} from "react-router-dom";
 
 export function TopBar() {
-    return <nav className="navbar navbar-expand-lg navbar-light bg-light w-100">
+    return <nav className="navbar navbar-expand navbar-light nav-fill bg-light w-100 shadow-sm">
+        <div className="container-fluid">
             <a className="navbar-brand" href="#">React adventures</a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -21,5 +22,6 @@ export function TopBar() {
                     </li>
                 </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 }

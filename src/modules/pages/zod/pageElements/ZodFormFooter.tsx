@@ -19,5 +19,10 @@ export function ZodFormFooter({zodForm}: ZodFormFooterProps) {
         console.log(getValues())
     }
 
-    return <GenericButton disabled={!isValid} onClick={onButtonClicked}>Click me!</GenericButton>;
+    return <div className="row">
+        <div className="col-8"/>
+        <div className="col-4 d-flex flex-row-reverse">
+            <GenericButton disabled={!isValid} onClick={onButtonClicked}>Click me!</GenericButton>
+        </div>
+    </div>;
 }

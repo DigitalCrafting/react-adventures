@@ -8,7 +8,7 @@ type FormikFormBodyProps = {
 export function FormikFormBody({formik}: FormikFormBodyProps) {
     console.log(`====== Re-evaluating FormikFormBody`)
 
-    return (<div className="container w-50">
+    return (<div className="container p-0">
         <div className="row">
             <FormikFormInput label="Title"
                              fieldName={"title"}

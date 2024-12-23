@@ -8,7 +8,7 @@ type ZodFormBodyProps = {
 export function ZodFormBody({zodForm}: ZodFormBodyProps) {
     console.log(`====== Re-evaluating ZodFormBody`)
 
-    return (<div className="container w-50">
+    return (<div className="container p-0">
         <div className="row">
             <ZodFormInput zodForm={zodForm} label="Title" fieldName="title"/>
         </div>
