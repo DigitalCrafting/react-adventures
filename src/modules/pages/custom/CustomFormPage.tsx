@@ -3,14 +3,13 @@ import {FormGroup, FormInputControl} from "../../core/forms/custom-forms.ts";
 import {CustomFormHeader} from "././pageElements/CustomFormHeader.tsx";
 import {CustomFormFooter} from "././pageElements/CustomFormFooter.tsx";
 import {CustomFormBody} from "././pageElements/CustomFormBody.tsx";
+import {ValidatorComposers} from "../../core/validators/validators.ts";
 
 export function CustomFormPage() {
     console.log(`====== Re-evaluating CustomFormPage`)
     const formGroup = useRef(
         new FormGroup({
-            title: new FormInputControl<string>('', (value) => {
-                return !value ? "Value is required" : null
-            }),
+            title: new FormInputControl<string>('', ValidatorComposers.string().required("Value is required")),
             description: new FormInputControl<string>(''),
         })
     )

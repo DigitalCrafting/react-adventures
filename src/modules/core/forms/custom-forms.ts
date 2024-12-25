@@ -1,9 +1,7 @@
 import {EventEmitter, EventEmitterCallback} from "../events/event-emitter.ts";
 import {Subscription} from "rxjs";
+import {ValidationError, ValidatorsComposition} from "../validators/validators.ts";
 
-export type ValidationError = string
-
-export type ValidatorFunc = (value: any) => ValidationError | null
 
 type EventConfig = {
     emit?: boolean,
@@ -23,12 +21,12 @@ export interface FormElement<T = any> {
 abstract class BaseFormElement<T = any> implements FormElement<T> {
     protected parent: BaseFormElement | null = null;
     protected error: ValidationError | null;
-    protected validatorFunc?: ValidatorFunc;
+    protected validator?: ValidatorsComposition;
     protected validityChangesEventEmitter: EventEmitter<boolean>;
     protected valueChangesEventEmitter: EventEmitter<T | any>;
 
-    constructor(validatorFunc?: ValidatorFunc) {
-        this.validatorFunc = validatorFunc
+    constructor(validator?: ValidatorsComposition) {
+        this.validator = validator
         this.error = null;
         this.validityChangesEventEmitter = new EventEmitter();
         this.valueChangesEventEmitter = new EventEmitter();
@@ -51,8 +49,8 @@ abstract class BaseFormElement<T = any> implements FormElement<T> {
         emit: true,
         bubbleUp: true
     }) {
-        if (this.validatorFunc) {
-            const newError = this.validatorFunc(this.getValue());
+        if (this.validator) {
+            const newError = this.validator.validate(this.getValue());
             if (this.error !== newError) {
                 this.error = newError;
                 if (eventConfig.emit) {
@@ -102,7 +100,7 @@ abstract class BaseFormElement<T = any> implements FormElement<T> {
 export class FormGroup extends BaseFormElement {
     private _formElements: {[key: string]: FormGroup | FormInputControl | FormArray}
 
-    constructor(formElements: { [p: string]: FormGroup | FormInputControl | FormArray}, validator?: ValidatorFunc) {
+    constructor(formElements: { [p: string]: FormGroup | FormInputControl | FormArray}, validator?: ValidatorsComposition) {
         super(validator);
         this._formElements = formElements;
         this._setUpElements();
@@ -173,7 +171,7 @@ export class FormGroup extends BaseFormElement {
 export class FormInputControl<T = any> extends BaseFormElement<T> {
     private value: T | null;
 
-    constructor(value: T | null = null, validator?: ValidatorFunc) {
+    constructor(value: T | null = null, validator?: ValidatorsComposition) {
         super(validator);
         this.value = value
         this.updateValidityAndEmitEvent({emit: false, bubbleUp: false})
@@ -196,7 +194,7 @@ export class FormInputControl<T = any> extends BaseFormElement<T> {
 export class FormArray<T = any> extends BaseFormElement<T> {
     private formArray: FormElement[]
 
-    constructor(array: FormElement[], validator?: ValidatorFunc) {
+    constructor(array: FormElement[], validator?: ValidatorsComposition) {
         super(validator);
         this.formArray = array || []
     }
