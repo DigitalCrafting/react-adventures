@@ -12,13 +12,13 @@ export function CustomFormBody({formGroup}: CustomFormBodyProps) {
         <div className="row">
             <CustomFormInput label="Title"
                              fieldName={"title"}
-                             inputControl={formGroup.getFormElement('title') as FormInputControl}
+                             inputControl={formGroup.getElement('title') as FormInputControl}
             />
         </div>
         <div>
             <CustomFormInput label="Description"
                              fieldName={"description"}
-                             inputControl={formGroup.getFormElement('description') as FormInputControl}
+                             inputControl={formGroup.getElement('description') as FormInputControl}
             />
         </div>
     </div>)
