@@ -311,9 +311,8 @@ export class FormArray extends AbstractFormElement {
     pushElement(element: (FormGroup | FormInputControl | FormArray)) {
         this._formArray.push(element);
         element._setParent(this);
-        this._updateValidity()
+        this._updateValidityAndEmitEvent()
         this._emitValueChanges();
-        this._emitValidityChanges();
     }
 
     get length(): number {

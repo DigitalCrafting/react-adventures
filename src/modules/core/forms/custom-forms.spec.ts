@@ -378,5 +378,66 @@ describe('Custom forms', () => {
                 expect(controlArray.getIsValid()).toBe(true);
             })
         })
+
+        describe('pushElement', () => {
+            it('should correctly add element', () => {
+                // given
+                const controlArray = new FormArray([
+                    new FormInputControl('', ValidatorComposers.string().required()),
+                ])
+
+                // when
+                controlArray.pushElement(new FormInputControl('second value'))
+
+                // then
+                expect(controlArray.length).eq(2)
+            })
+
+            it('should correctly update and emit value change', () => {
+                // given
+                const controlArray = new FormArray([
+                    new FormInputControl('first value', ValidatorComposers.string().required())
+                ])
+                const oldValue = controlArray.getValue()
+                let emittedValue: any[] | null = null
+
+                controlArray.onValueChanges((value) => {
+                    emittedValue = value
+                })
+                const expectedValue = ['first value', 'second value'];
+
+                // when
+                controlArray.pushElement(new FormInputControl('second value'))
+
+                // then
+                expect(oldValue.sort()).not.toEqual(expectedValue)
+                expect(emittedValue).not.eq(null)
+                // @ts-ignore
+                expect(emittedValue).toEqual(expectedValue)
+                expect(controlArray.getValue().sort()).toEqual(expectedValue)
+            })
+
+            it('should correctly update and emit validity change', () => {
+                // given
+                const controlArray = new FormArray([
+                    new FormInputControl('first value'),
+                    new FormInputControl('second value')
+                ])
+
+                const currentValidity = controlArray.getIsValid()
+                let emittedValidity: boolean | null = null
+                controlArray.onValidityChanges((isValid) => {
+                    emittedValidity = isValid
+                })
+
+                // when
+                controlArray.pushElement(new FormInputControl('', ValidatorComposers.string().required()))
+
+                // then
+                expect(currentValidity).toBe(true);
+                expect(emittedValidity).toBe(false);
+                expect(controlArray.getIsValid()).toBe(false);
+            })
+        })
     })
 })

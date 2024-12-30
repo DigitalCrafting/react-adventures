@@ -9,8 +9,8 @@ export function CustomFormPage() {
     console.log(`====== Re-evaluating CustomFormPage`)
     const formGroup = useRef(
         new FormGroup({
-            title: new FormInputControl<string>('', ValidatorComposers.string().required("Value is required")),
-            description: new FormInputControl<string>(''),
+            title: new FormInputControl('', ValidatorComposers.string().required("Value is required")),
+            description: new FormInputControl(''),
         })
     )
 
