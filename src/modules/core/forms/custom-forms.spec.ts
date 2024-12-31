@@ -213,6 +213,95 @@ describe('Custom forms', () => {
             expect(currentIsValid).eq(true)
             expect(currentIsValid).eq(control.getIsValid())
         })
+
+        describe('getElementFromPath', () => {
+            it('should return control 1 level deep', () => {
+                // given
+                const expectedControl = new FormInputControl('', ValidatorComposers.string().required())
+                const formGroup = new FormGroup({
+                    first: expectedControl,
+                    second: new FormInputControl('second value')
+                })
+
+                // when
+                const actualControl = formGroup.getElementFromPath('first');
+
+                // then
+                expect(actualControl).eq(expectedControl)
+            })
+
+            it('should return control 2 levels deep', () => {
+                // given
+                const expectedControl = new FormInputControl('', ValidatorComposers.string().required())
+                const formGroup = new FormGroup({
+                    firstLevel: new FormGroup({
+                        first: expectedControl
+                    }),
+                    second: new FormInputControl('second value')
+                })
+
+                // when
+                const actualControl = formGroup.getElementFromPath('firstLevel.first');
+
+                // then
+                expect(actualControl).eq(expectedControl)
+            })
+
+            it('should return control 2 levels deep from FormArray', () => {
+                // given
+                const expectedControl = new FormInputControl('', ValidatorComposers.string().required())
+                const formGroup = new FormGroup({
+                    firstLevel: new FormArray([
+                        expectedControl
+                    ]),
+                    second: new FormInputControl('second value')
+                })
+
+                // when
+                const actualControl = formGroup.getElementFromPath('firstLevel.0');
+
+                // then
+                expect(actualControl).eq(expectedControl)
+            })
+
+            it('should return control 3 levels deep', () => {
+                // given
+                const expectedControl = new FormInputControl('', ValidatorComposers.string().required())
+                const formGroup = new FormGroup({
+                    firstLevel: new FormGroup({
+                        secondLevel: new FormGroup({
+                            first: expectedControl
+                        })
+                    }),
+                    second: new FormInputControl('second value')
+                })
+
+                // when
+                const actualControl = formGroup.getElementFromPath('firstLevel.secondLevel.first');
+
+                // then
+                expect(actualControl).eq(expectedControl)
+            })
+
+            it('should return control 3 levels deep, from FormArray in the middle', () => {
+                // given
+                const expectedControl = new FormInputControl('', ValidatorComposers.string().required())
+                const formGroup = new FormGroup({
+                    firstLevel: new FormArray([
+                        new FormGroup({
+                            first: expectedControl
+                        })
+                    ]),
+                    second: new FormInputControl('second value')
+                })
+
+                // when
+                const actualControl = formGroup.getElementFromPath('firstLevel.0.first');
+
+                // then
+                expect(actualControl).eq(expectedControl)
+            })
+        })
     })
 
     describe('FormArray', () => {

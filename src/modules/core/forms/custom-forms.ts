@@ -156,6 +156,45 @@ export class FormGroup extends AbstractFormElement {
         return this._formElements[key]
     }
 
+    /**
+     * Returns nested child component using path.
+     *
+     * Path parts should be separated using coma,
+     * if path goes through FormArray, use index to get concrete element.
+     * */
+    getElementFromPath(path: string): FormGroup | FormInputControl | FormArray {
+        const pathParts = path.split('.')
+
+        if (pathParts.length === 1) {
+            return this._formElements[pathParts[0]]
+        }
+
+        if (pathParts.length > 1) {
+            let element: FormGroup | FormInputControl | FormArray | undefined = undefined;
+            for (let i = 0; i< pathParts.length; i++) {
+                const pathPart = pathParts[i];
+
+                // @ts-ignore
+                if (!element) {
+                    element = this._formElements[pathPart]
+                } else{
+                    if (element instanceof FormGroup) {
+                        element = element.getElement(pathPart)
+                    } else if (element instanceof FormArray) {
+                        element = element.getElement(+pathPart)
+                    } else {
+                        /* We should only get FormInputControl as the last element */
+                        throw new Error(`Path ${path} does not match actual form structure`)
+                    }
+                }
+            }
+
+            return element as FormGroup | FormInputControl | FormArray
+        }
+
+        throw new Error(`Element on path ${path} does not exist.`)
+    }
+
     getErrorsTree(): Record<string, any> {
         const errorTree: Record<string, any> = {}
 
