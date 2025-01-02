@@ -1,5 +1,7 @@
 import {CustomFormInput} from "../components/custom-form-input.tsx";
 import {FormGroup, FormInputControl} from "../../../core/forms/custom-forms.ts";
+import {reEvaluationEventEmitter} from "../../dashboard/components/re-evaluation-event.ts";
+import {useEffect} from "react";
 
 type CustomFormBodyProps = {
     formGroup: FormGroup
@@ -7,6 +9,9 @@ type CustomFormBodyProps = {
 
 export function CustomFormBody({formGroup}: CustomFormBodyProps) {
     console.log(`====== Re-evaluating CustomFormBody`)
+    useEffect(() => {
+        reEvaluationEventEmitter.emit('register')
+    });
 
     return (<div className="container p-0">
         <div className="row">

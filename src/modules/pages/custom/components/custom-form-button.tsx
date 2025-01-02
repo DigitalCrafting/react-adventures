@@ -1,7 +1,8 @@
 import {GenericButton} from "../../../core/components/generic-button.tsx";
 import {FormGroup} from "../../../core/forms/custom-forms.ts";
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
 import {useCustomFormButton} from "../hooks/useCustomFormButton.tsx";
+import {reEvaluationEventEmitter} from "../../dashboard/components/re-evaluation-event.ts";
 
 type CustomFormButtonProps = {
     formGroup: FormGroup
@@ -9,6 +10,9 @@ type CustomFormButtonProps = {
 
 export function CustomFormButton({formGroup}: CustomFormButtonProps) {
     console.log(`====== Re-evaluating CustomFormButton`)
+    useEffect(() => {
+        reEvaluationEventEmitter.emit('register')
+    });
     const {disabled} = useCustomFormButton(formGroup)
 
     const onClickHandler = useCallback(() => {

@@ -1,4 +1,6 @@
 import {UseFormReturn} from "react-hook-form";
+import {useEffect} from "react";
+import {reEvaluationEventEmitter} from "../../dashboard/components/re-evaluation-event.ts";
 
 type ZodFormInputProps = {
     label: string
@@ -8,6 +10,10 @@ type ZodFormInputProps = {
 
 export function ZodFormInput({label, fieldName, zodForm}: ZodFormInputProps) {
     console.log(`====== Re-evaluating ZodFormInput for field ${label}`)
+    useEffect(() => {
+        reEvaluationEventEmitter.emit('register')
+    });
+
 
     const {
         register,

@@ -1,6 +1,7 @@
 import {GenericButton} from "../../../core/components/generic-button.tsx";
 import {FormikProps} from "formik";
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
+import {reEvaluationEventEmitter} from "../../dashboard/components/re-evaluation-event.ts";
 
 type FormikFormFooterProps = {
     formik: FormikProps<any>
@@ -8,6 +9,10 @@ type FormikFormFooterProps = {
 
 export function FormikFormFooter({formik}: FormikFormFooterProps) {
     console.log(`====== Re-evaluating FormikFormFooter`)
+    useEffect(() => {
+        reEvaluationEventEmitter.emit('register')
+    });
+
 
     const onClickHandler = useCallback(() => {
         console.log(formik.values)

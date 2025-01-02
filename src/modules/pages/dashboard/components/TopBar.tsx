@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom";
+import {ReEvaluationCounter} from "./ReEvaluationCounter.tsx";
 
 export function TopBar() {
     return <nav className="navbar navbar-expand navbar-light nav-fill bg-light w-100 shadow-sm">
@@ -22,6 +23,7 @@ export function TopBar() {
                     </li>
                 </ul>
             </div>
+            <ReEvaluationCounter/>
         </div>
     </nav>
 }

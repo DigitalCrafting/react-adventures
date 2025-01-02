@@ -3,6 +3,8 @@ import {FormikFormBody} from "././pageElements/FormikFormBody.tsx";
 import {FormikFormFooter} from "././pageElements/FormikFormFooter.tsx";
 import {useFormik} from "formik";
 import * as yup from 'yup'
+import {useEffect} from "react";
+import {reEvaluationEventEmitter} from "../dashboard/components/re-evaluation-event.ts";
 
 interface FormikForm {
     title: string
@@ -11,6 +13,10 @@ interface FormikForm {
 
 export function FormikFormPage() {
     console.log(`====== Re-evaluating FormikFormPage`)
+    useEffect(() => {
+        reEvaluationEventEmitter.emit('register')
+    });
+
 
     const formik = useFormik<FormikForm>({
         initialValues: {

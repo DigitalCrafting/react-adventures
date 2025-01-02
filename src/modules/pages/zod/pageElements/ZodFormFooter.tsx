@@ -1,5 +1,7 @@
 import {GenericButton} from "../../../core/components/generic-button.tsx";
 import {UseFormReturn} from "react-hook-form";
+import {useEffect} from "react";
+import {reEvaluationEventEmitter} from "../../dashboard/components/re-evaluation-event.ts";
 
 type ZodFormFooterProps = {
     zodForm: UseFormReturn<{title: string, description: string}>
@@ -7,6 +9,10 @@ type ZodFormFooterProps = {
 
 export function ZodFormFooter({zodForm}: ZodFormFooterProps) {
     console.log(`====== Re-evaluating ZodFormFooter`)
+    useEffect(() => {
+        reEvaluationEventEmitter.emit('register')
+    });
+
 
     const {
         getValues,
