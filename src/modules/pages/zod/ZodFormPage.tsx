@@ -17,7 +17,6 @@ export function ZodFormPage() {
 
     const zodForm = useForm<ZodFormData>({
         resolver: zodResolver(ZodFormSchema),
-        mode: 'onChange',
     });
 
     useEffect(() => {

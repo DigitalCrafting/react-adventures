@@ -17,7 +17,7 @@ export function FormikFormPage() {
             title: '',
             description: ''
         },
-        onSubmit: values => console.log(values),
+        onSubmit: () => {},
         validationSchema: yup.object({
             title: yup.string().required(),
             description: yup.string()
