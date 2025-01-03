@@ -1,6 +1,6 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import {FormikFormPage} from "../modules/./pages/formik/FormikFormPage.tsx";
-import {ZodFormPage} from "../modules/./pages/zod/ZodFormPage.tsx";
+import {ReactHookFormPage} from "../modules/pages/zod/ReactHookFormPage.tsx";
 import {CustomFormPage} from "../modules/./pages/custom/CustomFormPage.tsx";
 import App from "../modules/pages/dashboard/App.tsx";
 
@@ -20,8 +20,8 @@ const router = createBrowserRouter([
                 path: 'formik',
                 element: <FormikFormPage/>
             },{
-                path: 'zod',
-                element: <ZodFormPage/>
+                path: 'rhf',
+                element: <ReactHookFormPage/>
             },{
                 path: 'custom',
                 element: <CustomFormPage/>

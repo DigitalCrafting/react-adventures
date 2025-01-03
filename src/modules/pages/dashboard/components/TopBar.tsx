@@ -1,7 +1,9 @@
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {ReEvaluationCounter} from "./ReEvaluationCounter.tsx";
 
 export function TopBar() {
+    const location = useLocation()
+
     return <nav className="navbar navbar-expand navbar-light nav-fill bg-light w-100 shadow-sm">
         <div className="container-fluid">
             <a className="navbar-brand" href="#">React adventures</a>
@@ -13,13 +15,13 @@ export function TopBar() {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/ui/formik"}>Formik</Link>
+                        <Link className={`nav-link ${location.pathname.includes('formik') ? 'active ' : ''}`} to={"/ui/formik"}>Formik</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/ui/zod"}>Zod</Link>
+                        <Link className={`nav-link ${location.pathname.includes('rhf') ? 'active ' : ''}`} to={"/ui/rhf"}>RHF</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/ui/custom"}>Custom</Link>
+                        <Link className={`nav-link ${location.pathname.includes('custom') ? 'active ' : ''}`} to={"/ui/custom"}>Custom</Link>
                     </li>
                 </ul>
             </div>

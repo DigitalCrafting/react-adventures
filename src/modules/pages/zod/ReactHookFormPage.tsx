@@ -1,9 +1,9 @@
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {ZodFormHeader} from "./pageElements/ZodFormHeader.tsx";
-import {ZodFormBody} from "./pageElements/ZodFormBody.tsx";
-import {ZodFormFooter} from "./pageElements/ZodFormFooter.tsx";
+import {ReactHookFormHeader} from "./pageElements/ReactHookFormHeader.tsx";
+import {ReactHookFormBody} from "./pageElements/ReactHookFormBody.tsx";
+import {ReactHookFormFooter} from "./pageElements/ReactHookFormFooter.tsx";
 import {useEffect} from "react";
 import {reEvaluationEventEmitter} from "../dashboard/components/re-evaluation-event.ts";
 
@@ -12,11 +12,11 @@ const ZodFormSchema = z.object({
     description: z.string()
 })
 
-type ZodFormData = z.infer<typeof ZodFormSchema>;
+type ReactHookFormData = z.infer<typeof ZodFormSchema>;
 
-export function ZodFormPage() {
+export function ReactHookFormPage() {
 
-    const zodForm = useForm<ZodFormData>({
+    const zodForm = useForm<ReactHookFormData>({
         resolver: zodResolver(ZodFormSchema),
     });
 
@@ -29,8 +29,8 @@ export function ZodFormPage() {
     });
 
     return <div className="container">
-        <ZodFormHeader/>
-        <ZodFormBody zodForm={zodForm}/>
-        <ZodFormFooter zodForm={zodForm} />
+        <ReactHookFormHeader/>
+        <ReactHookFormBody zodForm={zodForm}/>
+        <ReactHookFormFooter zodForm={zodForm} />
     </div>
 }

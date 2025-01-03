@@ -2,14 +2,14 @@ import {UseFormReturn} from "react-hook-form";
 import {useEffect} from "react";
 import {reEvaluationEventEmitter} from "../../dashboard/components/re-evaluation-event.ts";
 
-type ZodFormInputProps = {
+type ReactHookFormInputProps = {
     label: string
     fieldName: string
     zodForm: UseFormReturn<{title: string, description: string}>
 }
 
-export function ZodFormInput({label, fieldName, zodForm}: ZodFormInputProps) {
-    console.log(`====== Re-evaluating ZodFormInput for field ${label}`)
+export function ReactHookFormInput({label, fieldName, zodForm}: ReactHookFormInputProps) {
+    console.log(`====== Re-evaluating ReactHookFormInput for field ${label}`)
     useEffect(() => {
         reEvaluationEventEmitter.emit('register')
     });

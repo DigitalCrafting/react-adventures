@@ -13,3 +13,9 @@ body {
 .fs-7 {
   font-size: 0.75rem !important;
 }
+
+a.active {
+  background-color: cornflowerblue;
+  color: white !important;
+  border-radius: 5px !important;
+}
