@@ -1,6 +1,6 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import {FormikFormPage} from "../modules/./pages/formik/FormikFormPage.tsx";
-import {ReactHookFormPage} from "../modules/pages/zod/ReactHookFormPage.tsx";
+import {ReactHookFormPage} from "../modules/pages/./rhf/ReactHookFormPage.tsx";
 import {CustomFormPage} from "../modules/./pages/custom/CustomFormPage.tsx";
 import App from "../modules/pages/dashboard/App.tsx";
 

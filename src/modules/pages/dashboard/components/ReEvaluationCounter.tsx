@@ -27,6 +27,6 @@ export function ReEvaluationCounter() {
     }, [location]);
 
     return <div className="d-flex flex-row-reverse">
-        <span>Components re-evaluated <b>{count}</b> times</span>
+        <span>Components re-evaluated <b>{count}</b></span>
     </div>
 }
