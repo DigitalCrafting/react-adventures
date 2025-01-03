@@ -16,7 +16,7 @@ export function FormikFormFooter({formik}: FormikFormFooterProps) {
 
     const onClickHandler = useCallback(() => {
         console.log(formik.values)
-    }, [])
+    }, [formik.values])
 
     return <div className="row">
         <div className="col-8"/>
